@@ -4,14 +4,9 @@ import makeCountdown from "./countdown";
 class CountdownTimer {
     constructor({ targetDate, selector }) {
         this.selector = selector;
-        this.creatCountdown(this.selector);
+        creatCountdown(this.selector);
         this.targetDate = targetDate.getTime();
         this.start();
-    }
-
-    creatCountdown(selector) {
-        const newSelector = selector.slice(1,[selector.length])
-        document.body.insertAdjacentHTML('afterbegin', makeCountdown(newSelector));
     };
     
     start() {
@@ -28,7 +23,7 @@ class CountdownTimer {
 
     callTimer(timerTime) {
         const time = this.getTimeComponents(timerTime);
-        const refs = this.chooseSelectors(this.selector);
+        const refs = chooseSelectors(this.selector);
         timerInterface(refs,time);
     };
 
@@ -44,17 +39,23 @@ class CountdownTimer {
         return String(value).padStart(2, '0');
     };
 
-    chooseSelectors(selector) {
-        const refs = {
-            daysValue: document.querySelector(`${selector} [data-value="days"]`),
-            hoursValue: document.querySelector(`${selector} [data-value="hours"]`),
-            minsValue: document.querySelector(`${selector} [data-value="mins"]`),
-            secsValue: document.querySelector(`${selector} [data-value="secs"]`),
-        };
-        return refs;
-    };
 };
 
+function creatCountdown(selector) {
+    const newSelector = selector.slice(1, [selector.length]);
+        document.body.insertAdjacentHTML('afterbegin', makeCountdown(newSelector));
+};
+
+function chooseSelectors(selector) {
+    const refs = {
+        daysValue: document.querySelector(`${selector} [data-value="days"]`),
+        hoursValue: document.querySelector(`${selector} [data-value="hours"]`),
+        minsValue: document.querySelector(`${selector} [data-value="mins"]`),
+        secsValue: document.querySelector(`${selector} [data-value="secs"]`),
+    };
+        
+    return refs;
+};
 
 function timerInterface({daysValue,hoursValue,minsValue,secsValue},{ days, hours, mins, secs }) {
     daysValue.textContent = days;
@@ -68,12 +69,12 @@ const newTimer = new CountdownTimer({
   targetDate: new Date('Sep 17, 2021'),
 });
 
-// const newTimer2 = new CountdownTimer({
-//   selector: '#timer-2',
-//   targetDate: new Date('Jun 17, 2021'),
-// });
+const newTimer2 = new CountdownTimer({
+  selector: '#timer-2',
+  targetDate: new Date('Jun 17, 2021'),
+});
 
-// const newTimer3 = new CountdownTimer({
-//   selector: '#timer-3',
-//   targetDate: new Date('Jul 17, 2021'),
-// });
+const newTimer3 = new CountdownTimer({
+  selector: '#timer-3',
+  targetDate: new Date('Jul 17, 2021'),
+});
